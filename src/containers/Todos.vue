@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="todos">
+    <p class="todos__title">todos</p>
     <Task></Task>
     <Filters></Filters>
   </div>
@@ -23,5 +24,15 @@ export default class Todos extends Vue {
 </script>
 
 <style scoped lang="scss">
+
+.todos {
+  background-color: $c-background;
+
+  &__title {
+    color: $c-primary;
+    font-size: $fs-x-large;
+    font-weight: $fw-bold;
+  }
+}
 
 </style>
