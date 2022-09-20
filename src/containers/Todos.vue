@@ -1,19 +1,23 @@
 <template>
   <div>
-    <Todos></Todos>
+    <Task></Task>
+    <Filters></Filters>
   </div>
+
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import Todos  from '@/containers/Todos'
+import Task from '@/components/Task'
+import Filters from "@/components/Filters.vue";
 
 @Component({
   components: {
-    Todos
+    Task,
+    Filters
   }
 })
-export default class All extends Vue {
+export default class Todos extends Vue {
 
 }
 </script>
