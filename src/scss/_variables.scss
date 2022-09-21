@@ -2,7 +2,9 @@
 $c-primary: #e2dada;
 $c-black: #525252;
 $c-background: #f5f5f5;
-$c-active: #9defd6;
+$c-border: #949494;
+$c-active: #1bcd97;
+$c-white: #ffffff;
 
 //Font-sizes
 $fs-small: 8px;
@@ -17,10 +19,10 @@ $fw-bold: 700;
 $fw-heavy: 900;
 
 //Spacing
-$gap-xxs: 8;
-$gap-xs: 12;
-$gap-s: 16;
-$gap-m: 20;
-$gap-l: 24;
-$gap-xl: 32;
-$gap-xxl: 48;
+$gap-xxs: 8px;
+$gap-xs: 12px;
+$gap-s: 16px;
+$gap-m: 20px;
+$gap-l: 24px;
+$gap-xl: 32px;
+$gap-xxl: 48px;

@@ -5,12 +5,18 @@
 </template>
 
 <style lang="scss">
+* {
+  box-sizing: border-box;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  background-color: $c-background;
   color: #2c3e50;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  text-align: center;
 }
 
 #nav {
