@@ -1,14 +1,18 @@
 <template>
   <div>
-    <p>Página principal de todos</p>
-    <router-link to="/active">Ir a la vista de todos activos</router-link>
+    <Todos></Todos>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
+import Todos  from '@/containers/Todos'
 
-@Component
+@Component({
+  components: {
+    Todos
+  }
+})
 export default class All extends Vue {
 
 }
