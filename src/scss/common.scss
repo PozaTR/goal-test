@@ -1,0 +1,63 @@
+@import 'variables';
+
+.todo {
+  $checkboxSize: 18px;
+
+  align-items: center;
+  background-color: $c-white;
+  border: 1px solid $c-background;
+  height: 48px;
+  padding: $gap-xxs $gap-xxs $gap-xxs (2 * $gap-xxs + $checkboxSize);
+  position: relative;
+
+  &__checkbox-label {
+    border: 1px solid $c-border;
+    border-radius: 50%;
+    bottom: 0;
+    cursor: pointer;
+    height: $checkboxSize;
+    left: $gap-xxs;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    width: $checkboxSize;
+
+    &:before {
+      content: 'v';
+      color: $c-active;
+      font-weight: $fw-heavy;
+      position: absolute;
+      display: block;
+      height: 14px;
+      font-size: 14px;
+      line-height: 1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    &:has(input:checked):before {
+      opacity: 1;
+    }
+  }
+
+  &__checkbox-input {
+    display: none;
+  }
+
+  &__input {
+    border: none;
+    flex-grow: 1;
+    font-size: $fs-medium;
+    height: 100%;
+    line-height: 1;
+    padding: $gap-xxs;
+    width: 100%;
+
+    &--completed {
+      opacity: .3;
+    }
+  }
+}
