@@ -5,37 +5,80 @@ import Todo from '@/types/Todo'
 Vue.use(Vuex)
 
 export const actionNames = {
-  POST_TODO: 'create_todo'
+  POST_TODO: 'create_todo',
+  PATCH_ALL_TODOS: 'patch_all_todos',
+  PATCH_TODO: 'patch_todo'
 }
 
 export const mutationNames = {
-  CREATE_TODO: 'create_todo'
+  INCREASE_LAST_TODO_ID: 'increase_last_todo_id',
+  CREATE_TODO: 'create_todo',
+  UPDATE_ALL_TODOS: 'update_all_todos',
+  UPDATE_TODO: 'update_todo'
+}
+
+export const getterNames = {
+  GET_ALL: 'get_all',
+  GET_ACTIVE: 'get_active',
+  GET_COMPLETED: 'get_completed',
+  ARE_ALL_TODOS_COMPLETED: 'are_all_todos_completed'
 }
 
 export class StoreState {
   todos: Array<Todo>
+  lastTodoId: number
 
   constructor() {
     this.todos = []
+    this.lastTodoId = 0
   }
 }
 
 export default new Vuex.Store({
   state: new StoreState(),
   actions: {
-    [actionNames.POST_TODO]: async ({commit}, todo: string) => {
+    [actionNames.POST_TODO]: async ({commit, state}, label: string) => {
+      const todo: Todo = {
+        id: state.lastTodoId,
+        label,
+        isComplete: false
+      }
       commit(mutationNames.CREATE_TODO, todo)
+      commit(mutationNames.INCREASE_LAST_TODO_ID)
+    },
+    [actionNames.PATCH_ALL_TODOS]: async ({commit}, isComplete: boolean) => {
+      commit(mutationNames.UPDATE_ALL_TODOS, isComplete)
+    },
+    [actionNames.PATCH_TODO]: async ({commit}, { isComplete, id }: { isComplete: boolean, id: number }) => {
+      commit(mutationNames.UPDATE_TODO, { isComplete, id })
     }
   },
   mutations: {
-    [mutationNames.CREATE_TODO]: (state: StoreState, todo: string) => {
-      state.todos.push({
-        label: todo,
-        isComplete: false
-      })
+    [mutationNames.INCREASE_LAST_TODO_ID]: (state: StoreState) => {
+      state.lastTodoId++
+    },
+    [mutationNames.CREATE_TODO]: (state: StoreState, todo: Todo) => {
+      state.todos.push(todo)
+    },
+    [mutationNames.UPDATE_ALL_TODOS]: (state: StoreState, isComplete: boolean) => {
+      state.todos = state.todos.map(todo => ({
+        ...todo,
+        isComplete
+      }))
+    },
+    [mutationNames.UPDATE_TODO]: (state: StoreState, { isComplete, id }: { isComplete: boolean, id: number }) => {
+      const todoIndex = state.todos.findIndex(todo => todo.id === id)
+
+      if (todoIndex >= 0) {
+        state.todos[todoIndex].isComplete = isComplete
+      }
     }
   },
   getters: {
+    [getterNames.GET_ALL]: (state: StoreState): Array<Todo> => state.todos,
+    [getterNames.GET_ACTIVE]: (state: StoreState): Array<Todo> => state.todos.filter(todo => !todo.isComplete),
+    [getterNames.GET_COMPLETED]: (state: StoreState): Array<Todo> => state.todos.filter(todo => todo.isComplete),
+    [getterNames.ARE_ALL_TODOS_COMPLETED]: (state: StoreState): boolean => state.todos.every(todo => todo.isComplete)
   },
   modules: {
   }

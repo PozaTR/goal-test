@@ -1,20 +1,22 @@
 <template>
   <div class="todos">
     <p class="todos__title">todos</p>
-    <div class="todos__header">
+    <div class="todo">
       <label
-          v-if="todoList.length"
+          v-if="todos.length"
           for="toggle-all"
-          class="todos__header__checkbox-label">
+          class="todo__checkbox-label">
         <input
-          class="todos__header__checkbox-input"
+          class="todo__checkbox-input"
           type="checkbox"
           id="toggle-all"
-          name="toggle-all">
+          name="toggle-all"
+          v-model="areAllChecked"
+          @change="onChangeStatus()">
       </label>
       <input
         ref="todo_input"
-        class="todos__header__input"
+        class="todo__input"
         type="text"
         id="todo"
         name="todo"
@@ -22,26 +24,51 @@
         @input="onInput($event.target.value)"
         @keyup.enter="onPressEnter()">
     </div>
+    <div class="todos__main">
+      <ul>
+        <li
+          v-for="(todo, idx) in todos"
+          :key="`todo--${idx}`">
+          <Task
+            :label="todo.label"
+            :is-checked="todo.isComplete"
+            @onCheckChange="onTodoCompleteChange($event, todo.id)"
+          >
+          </Task>
+        </li>
+      </ul>
+    </div>
   </div>
 
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import Task from '@/components/Task'
 import Filters from "@/components/Filters.vue"
-import { actionNames } from '@/store'
-import Todo from "@/types/Todo";
+import { actionNames, getterNames } from '@/store'
+import { mapGetters } from 'vuex'
 
 @Component({
   components: {
     Task,
     Filters
+  },
+  computed: {
+    ...mapGetters({
+      todos: getterNames.GET_ALL,
+      areAllTodosCompleted: getterNames.ARE_ALL_TODOS_COMPLETED
+    })
   }
 })
 export default class Todos extends Vue {
   newTodo = ''
-  todoList: Array<Todo> = []
+  areAllChecked = false
+
+  @Watch('areAllTodosCompleted', { immediate: true })
+  onAllTodosChanges (newValue: boolean) {
+    this.areAllChecked = newValue
+  }
 
   onInput(todo: string): void {
     this.newTodo = todo
@@ -54,6 +81,16 @@ export default class Todos extends Vue {
     }
   }
 
+  async onChangeStatus(): Promise<void> {
+    await this.$store.dispatch(actionNames.PATCH_ALL_TODOS, this.areAllChecked)
+  }
+
+  async onTodoCompleteChange(isComplete: boolean, id: number): Promise<void> {
+    await this.$store.dispatch(actionNames.PATCH_TODO, { isComplete, id })
+  }
+
+
+
   mounted(): void {
     this.$refs.todo_input.focus()
   }
@@ -64,8 +101,6 @@ export default class Todos extends Vue {
 <style scoped lang="scss">
 
 .todos {
-  $checkboxSize: 16px;
-
   box-shadow: 0 10px 40px rgba(black, .3);
   margin: 0 auto;
   width: 450px;
@@ -75,61 +110,6 @@ export default class Todos extends Vue {
     font-size: $fs-x-large;
     font-weight: $fw-bold;
     margin: 0 0 $gap-m;
-  }
-
-  &__header {
-    align-items: center;
-    background-color: $c-white;
-    border: 1px solid $c-background;
-    height: 48px;
-    padding: $gap-xxs $gap-xxs $gap-xxs (2 * $gap-xxs + $checkboxSize);
-    position: relative;
-
-    &__checkbox-label {
-      border: 1px solid $c-border;
-      border-radius: 2px;
-      bottom: 0;
-      height: $checkboxSize;
-      left: $gap-xxs;
-      margin: auto;
-      position: absolute;
-      top: 0;
-      width: $checkboxSize;
-
-      &:before {
-        content: 'v';
-        color: $c-active;
-        font-weight: $fw-heavy;
-        position: absolute;
-        display: block;
-        height: 14px;
-        font-size: 14px;
-        line-height: 1;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        opacity: 0;
-        transition: opacity .3s;
-      }
-
-      &:has(input:checked):before {
-        opacity: 1;
-      }
-    }
-
-    &__checkbox-input {
-      display: none;
-    }
-
-    &__input {
-      border: none;
-      flex-grow: 1;
-      font-size: $fs-medium;
-      height: 100%;
-      line-height: 1;
-      padding: $gap-xxs;
-      width: 100%;
-    }
   }
 }
 
