@@ -12,7 +12,7 @@
           id="toggle-all"
           name="toggle-all"
           v-model="areAllChecked"
-          @change="onChangeStatus()">
+          @change="onChangeStatus">
       </label>
       <input
         ref="todo_input"
@@ -22,7 +22,7 @@
         name="todo"
         :value="newTodo"
         @input="onInput($event.target.value)"
-        @keyup.enter="onPressEnter()">
+        @keyup.enter="onPressEnter">
     </div>
     <div class="todos__main">
       <ul>
@@ -32,8 +32,9 @@
           <Task
             :label="todo.label"
             :is-checked="todo.isComplete"
-            @onCheckChange="onTodoCompleteChange($event, todo.id)"
-          >
+            @onCheckChange="onTodoCompleteChange($event, todo)"
+            @onLabelChange="onTodoLabelChange($event, todo)"
+            @onClickRemove="onRemoveTodo(todo)">
           </Task>
         </li>
       </ul>
@@ -48,6 +49,7 @@ import Task from '@/components/Task'
 import Filters from "@/components/Filters.vue"
 import { actionNames, getterNames } from '@/store'
 import { mapGetters } from 'vuex'
+import Todo from "@/types/Todo";
 
 @Component({
   components: {
@@ -85,11 +87,17 @@ export default class Todos extends Vue {
     await this.$store.dispatch(actionNames.PATCH_ALL_TODOS, this.areAllChecked)
   }
 
-  async onTodoCompleteChange(isComplete: boolean, id: number): Promise<void> {
-    await this.$store.dispatch(actionNames.PATCH_TODO, { isComplete, id })
+  async onTodoCompleteChange(isComplete: boolean, todo: Todo): Promise<void> {
+    await this.$store.dispatch(actionNames.PATCH_TODO, { ...todo, isComplete })
   }
 
+  async onTodoLabelChange(label: string, todo: Todo): Promise<void> {
+    await this.$store.dispatch(actionNames.PATCH_TODO, { ...todo, label })
+  }
 
+  async onRemoveTodo(todo: Todo): Promise<void> {
+    await this.$store.dispatch(actionNames.DELETE_TODO, todo)
+  }
 
   mounted(): void {
     this.$refs.todo_input.focus()
