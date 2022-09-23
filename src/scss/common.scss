@@ -2,6 +2,7 @@
 
 .todo {
   $checkboxSize: 18px;
+  $todo: &;
 
   align-items: center;
   background-color: $c-white;
@@ -9,6 +10,14 @@
   height: 48px;
   padding: $gap-xxs $gap-xxs $gap-xxs (2 * $gap-xxs + $checkboxSize);
   position: relative;
+
+  &--hidden {
+    #{$todo}__checkbox-label,
+    #{$todo}__label {
+      display: none;
+    }
+
+  }
 
   &__checkbox-label {
     border: 1px solid $c-border;
