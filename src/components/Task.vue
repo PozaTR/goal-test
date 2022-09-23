@@ -11,20 +11,33 @@
         v-model="isTodoChecked"
         @change="onCheckChange">
     </label>
-    <input
-      ref="todo_input"
+    <div
       :class="[
-        'todo__input',
-        {
-          'todo__input--completed': isTodoChecked
-        }
-      ]"
-      type="text"
-      :id="`input-${id}`"
-      :name="`input-${id}`"
-      :value="label"
-      @input="onInput($event.target.value)"
-      @keyup.enter="onPressEnter()">
+          'task__wrapper',
+          'todo__wrapper',
+          { 'todo__wrapper--completed': isTodoChecked}
+        ]">
+      <label
+          :class="[
+          'task__label',
+            {
+              'task__label--hidden': !isTaskDisabled
+            }
+          ]"
+          @dblclick="dobleClickLabel"
+      >{{label}}</label>
+      <input
+          ref="todo_input"
+          class="todo__input"
+          type="text"
+          :id="`input-${id}`"
+          :name="`input-${id}`"
+          :value="label"
+          @input="onInput($event.target.value)"
+          @keyup.enter="onPressEnter"
+      >
+    </div>
+    <span class="task__remove" @click="onClickRemove">X</span>
   </div>
 </template>
 
@@ -35,6 +48,8 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 export default class Task extends Vue {
   newTodo = ''
   isTodoChecked = false
+  counter = 0
+  isTaskDisabled = true
 
   @Prop() label?: string
   @Prop() isChecked?: boolean
@@ -42,6 +57,11 @@ export default class Task extends Vue {
   @Watch('isChecked', { immediate: true })
   onAllTodosChecked (newValue: boolean) {
     this.isTodoChecked = newValue
+  }
+
+  @Watch('label', { immediate: true })
+  onLabelChange (newValue: string) {
+    this.newTodo = newValue
   }
 
   get id () {
@@ -56,6 +76,8 @@ export default class Task extends Vue {
     if (this.label) {
       this.$emit('onLabelChange', this.newTodo)
       this.newTodo = ''
+      this.isTaskDisabled = true
+      this.$refs.todo_input.blur()
     }
   }
 
@@ -63,9 +85,60 @@ export default class Task extends Vue {
     this.$emit('onCheckChange', this.isTodoChecked)
   }
 
+  dobleClickLabel(): void {
+    this.isTaskDisabled = false
+    this.$refs.todo_input.focus()
+  }
+
+  onClickRemove(): void {
+    this.$emit('onClickRemove')
+  }
+
 }
 </script>
 
 <style scoped lang="scss">
+
+.task {
+  &__wrapper {
+    position: relative;
+    height: 100%;
+  }
+
+  &__label {
+    font-size: $fs-medium;
+    height: 100%;
+    line-height: 1;
+    padding: ($gap-xxs - 1px) $gap-xxs $gap-xxs;
+    position: absolute;
+    text-align: left;
+    top: 0;
+    width: 100%;
+
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__remove {
+    background-color: $c-primary;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    height: 22px;
+    line-height: 1;
+    padding: $gap-xxs - 4;
+    position: absolute;
+    right: $gap-s;
+    top: 12px;
+    width: 24px;
+  }
+
+  &:hover {
+    .task__remove {
+      display: block;
+    }
+  }
+}
 
 </style>

@@ -47,6 +47,12 @@
     display: none;
   }
 
+  &__wrapper {
+    &--completed {
+      opacity: .3;
+    }
+  }
+
   &__input {
     border: none;
     flex-grow: 1;
@@ -55,9 +61,5 @@
     line-height: 1;
     padding: $gap-xxs;
     width: 100%;
-
-    &--completed {
-      opacity: .3;
-    }
   }
 }

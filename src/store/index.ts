@@ -7,14 +7,16 @@ Vue.use(Vuex)
 export const actionNames = {
   POST_TODO: 'create_todo',
   PATCH_ALL_TODOS: 'patch_all_todos',
-  PATCH_TODO: 'patch_todo'
+  PATCH_TODO: 'patch_todo',
+  DELETE_TODO: 'delete_todo'
 }
 
 export const mutationNames = {
   INCREASE_LAST_TODO_ID: 'increase_last_todo_id',
   CREATE_TODO: 'create_todo',
   UPDATE_ALL_TODOS: 'update_all_todos',
-  UPDATE_TODO: 'update_todo'
+  UPDATE_TODO: 'update_todo',
+  REMOVE_TODO: 'remove_todo'
 }
 
 export const getterNames = {
@@ -49,8 +51,11 @@ export default new Vuex.Store({
     [actionNames.PATCH_ALL_TODOS]: async ({commit}, isComplete: boolean) => {
       commit(mutationNames.UPDATE_ALL_TODOS, isComplete)
     },
-    [actionNames.PATCH_TODO]: async ({commit}, { isComplete, id }: { isComplete: boolean, id: number }) => {
-      commit(mutationNames.UPDATE_TODO, { isComplete, id })
+    [actionNames.PATCH_TODO]: async ({commit}, todo: Todo) => {
+      commit(mutationNames.UPDATE_TODO, todo)
+    },
+    [actionNames.DELETE_TODO]: async ({commit}, todo:Todo) => {
+      commit(mutationNames.REMOVE_TODO, todo)
     }
   },
   mutations: {
@@ -66,13 +71,20 @@ export default new Vuex.Store({
         isComplete
       }))
     },
-    [mutationNames.UPDATE_TODO]: (state: StoreState, { isComplete, id }: { isComplete: boolean, id: number }) => {
-      const todoIndex = state.todos.findIndex(todo => todo.id === id)
+    [mutationNames.UPDATE_TODO]: (state: StoreState, todo: Todo) => {
+      const todoIndex = state.todos.findIndex(_todo => _todo.id === todo.id)
 
       if (todoIndex >= 0) {
-        state.todos[todoIndex].isComplete = isComplete
+        Vue.set(state.todos, todoIndex, todo)
       }
-    }
+    },
+    [mutationNames.REMOVE_TODO]: (state: StoreState, todo: Todo) => {
+      const todoIndex = state.todos.findIndex(_todo => _todo.id === todo.id)
+
+      if (todoIndex >= 0) {
+        state.todos.splice(todoIndex, 1)
+      }
+    },
   },
   getters: {
     [getterNames.GET_ALL]: (state: StoreState): Array<Todo> => state.todos,
