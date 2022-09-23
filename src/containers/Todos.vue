@@ -27,8 +27,8 @@
     <div class="todos__main">
       <ul>
         <li
-          v-for="(todo, idx) in todos"
-          :key="`todo--${idx}`">
+          v-for="todo in todos"
+          :key="`todo--${todo.id}`">
           <Task
             :label="todo.label"
             :is-checked="todo.isComplete"

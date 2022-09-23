@@ -1,5 +1,9 @@
 <template>
-  <div class="task todo">
+  <div :class="[
+      'task',
+      'todo',
+      {'todo--hidden': !isTaskDisabled}
+    ]">
     <label
       :for="`checkbox-${id}`"
       class="todo__checkbox-label">
@@ -35,7 +39,8 @@
           :value="label"
           @input="onInput($event.target.value)"
           @keyup.enter="onPressEnter"
-      >
+          @keyup.esc="onPressEscape"
+          @blur="onBlur">
     </div>
     <span class="task__remove" @click="onClickRemove">X</span>
   </div>
@@ -51,7 +56,7 @@ export default class Task extends Vue {
   counter = 0
   isTaskDisabled = true
 
-  @Prop() label?: string
+  @Prop() label: string
   @Prop() isChecked?: boolean
 
   @Watch('isChecked', { immediate: true })
@@ -72,13 +77,23 @@ export default class Task extends Vue {
     this.newTodo = todo
   }
 
-  async onPressEnter(): Promise<void> {
-    if (this.label) {
+  onPressEnter(): void {
+    this.$refs.todo_input.blur()
+  }
+
+  onBlur(): void {
+    if (this.newTodo) {
       this.$emit('onLabelChange', this.newTodo)
       this.newTodo = ''
       this.isTaskDisabled = true
-      this.$refs.todo_input.blur()
+    } else {
+      this.onClickRemove()
     }
+  }
+
+  onPressEscape(): void {
+    this.newTodo = this.label
+    this.$refs.todo_input.blur()
   }
 
   onCheckChange(): void {
@@ -138,6 +153,12 @@ export default class Task extends Vue {
     .task__remove {
       display: block;
     }
+  }
+}
+
+.todo--hidden {
+  .task__remove {
+    display: none !important;
   }
 }
 
