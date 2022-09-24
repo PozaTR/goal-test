@@ -46,7 +46,11 @@
         {{counterLabel}}
       </p>
       <Filters></Filters>
-      <p>Clear completed</p>
+      <p
+        v-if="completedTodos.length"
+        class="todos__footer__clear"
+        @click="clearTodos">Clear completed
+      </p>
     </div>
   </div>
 
@@ -69,7 +73,8 @@ import Todo from "@/types/Todo";
     ...mapGetters({
       todos: getterNames.GET_ALL,
       areAllTodosCompleted: getterNames.ARE_ALL_TODOS_COMPLETED,
-      activeTodos: getterNames.GET_ACTIVE
+      activeTodos: getterNames.GET_ACTIVE,
+      completedTodos: getterNames.GET_COMPLETED
     })
   }
 })
@@ -113,6 +118,10 @@ export default class Todos extends Vue {
     await this.$store.dispatch(actionNames.DELETE_TODO, todo)
   }
 
+  async clearTodos(): Promise<void> {
+    await this.$store.dispatch(actionNames.DELETE_COMPLETED_TODOS)
+  }
+
   mounted(): void {
     this.$refs.todo_input.focus()
   }
@@ -128,12 +137,21 @@ export default class Todos extends Vue {
   width: 450px;
 
   &__footer {
-    align-items: center;
     color: $c-black;
-    display: flex;
+    display: grid;
     font-size: $fs-small;
-    justify-content: space-between;
+    grid-template-columns: repeat(3, 1fr);
     padding: $gap-xxs + 2;
+
+    &__counter {
+      padding: ($gap-xxs - 4) $gap-xxs;
+      text-align: left;
+    }
+
+    &__clear {
+      padding: ($gap-xxs - 4) $gap-xxs;
+      text-align: right;
+    }
   }
 }
 
