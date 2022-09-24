@@ -1,5 +1,23 @@
 @import 'variables';
 
+.page {
+  display: flex;
+  justify-content: center;
+
+
+  &__card {
+    background-color: rgba($c-primary, 0.3);
+    padding: $gap-xs $gap-xl $gap-xl;
+
+    &__title {
+      color: $c-primary;
+      font-size: $fs-x-large;
+      font-weight: $fw-bold;
+      margin: 0 0 $gap-m;
+    }
+  }
+}
+
 .todo {
   $checkboxSize: 18px;
   $todo: &;
