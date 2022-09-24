@@ -1,6 +1,5 @@
 <template>
   <div class="todos">
-    <p class="todos__title">todos</p>
     <div class="todo">
       <label
           v-if="todos.length"
@@ -39,6 +38,16 @@
         </li>
       </ul>
     </div>
+    <div
+      v-if="todos.length"
+      class="todos__footer">
+      <p class="todos__footer__counter">
+        <strong>{{activeTodos.length}}</strong>
+        {{counterLabel}}
+      </p>
+      <Filters></Filters>
+      <p>Clear completed</p>
+    </div>
   </div>
 
 </template>
@@ -59,7 +68,8 @@ import Todo from "@/types/Todo";
   computed: {
     ...mapGetters({
       todos: getterNames.GET_ALL,
-      areAllTodosCompleted: getterNames.ARE_ALL_TODOS_COMPLETED
+      areAllTodosCompleted: getterNames.ARE_ALL_TODOS_COMPLETED,
+      activeTodos: getterNames.GET_ACTIVE
     })
   }
 })
@@ -70,6 +80,10 @@ export default class Todos extends Vue {
   @Watch('areAllTodosCompleted', { immediate: true })
   onAllTodosChanges (newValue: boolean) {
     this.areAllChecked = newValue
+  }
+
+  get counterLabel (): string {
+    return `item${this.activeTodos.length === 1 ? '' : 's'} left`
   }
 
   onInput(todo: string): void {
@@ -113,11 +127,13 @@ export default class Todos extends Vue {
   margin: 0 auto;
   width: 450px;
 
-  &__title {
-    color: $c-primary;
-    font-size: $fs-x-large;
-    font-weight: $fw-bold;
-    margin: 0 0 $gap-m;
+  &__footer {
+    align-items: center;
+    color: $c-black;
+    display: flex;
+    font-size: $fs-small;
+    justify-content: space-between;
+    padding: $gap-xxs + 2;
   }
 }
 

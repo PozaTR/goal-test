@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <Todos></Todos>
+  <div class="page">
+    <div class="page__card">
+      <p class="page__card__title">todos</p>
+      <Todos></Todos>
+    </div>
   </div>
 </template>
 
