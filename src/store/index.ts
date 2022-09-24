@@ -8,7 +8,8 @@ export const actionNames = {
   POST_TODO: 'create_todo',
   PATCH_ALL_TODOS: 'patch_all_todos',
   PATCH_TODO: 'patch_todo',
-  DELETE_TODO: 'delete_todo'
+  DELETE_TODO: 'delete_todo',
+  DELETE_COMPLETED_TODOS: 'delete_completed_todos'
 }
 
 export const mutationNames = {
@@ -56,6 +57,12 @@ export default new Vuex.Store({
     },
     [actionNames.DELETE_TODO]: async ({commit}, todo:Todo) => {
       commit(mutationNames.REMOVE_TODO, todo)
+    },
+    [actionNames.DELETE_COMPLETED_TODOS]: async ({ dispatch, getters }, todo:Todo) => {
+      const completedTodos: Array<Todo> = getters[getterNames.GET_COMPLETED]
+      completedTodos.forEach(todo => {
+        dispatch(actionNames.DELETE_TODO, todo)
+      })
     }
   },
   mutations: {
