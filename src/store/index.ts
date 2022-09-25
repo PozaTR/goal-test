@@ -37,7 +37,7 @@ export class StoreState {
   }
 }
 
-export default new Vuex.Store({
+export const createStore = () => new Vuex.Store({
   state: new StoreState(),
   actions: {
     [actionNames.POST_TODO]: async ({commit, state}, label: string) => {
@@ -102,3 +102,5 @@ export default new Vuex.Store({
   modules: {
   }
 })
+
+export default createStore()

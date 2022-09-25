@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1664109628697" clover="3.2.0">
+  <project timestamp="1664109628697" name="All files">
+    <metrics statements="32" coveredstatements="23" conditionals="4" coveredconditionals="4" methods="23" coveredmethods="17" elements="59" coveredelements="44" complexity="0" loc="32" ncloc="32" packages="1" files="1" classes="1"/>
+    <file name="index.ts" path="/Users/roci/Projects/goal-test/src/store/index.ts">
+      <metrics statements="32" coveredstatements="23" conditionals="4" coveredconditionals="4" methods="23" coveredmethods="17"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="2" count="1" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="7" count="1" type="stmt"/>
+      <line num="15" count="1" type="stmt"/>
+      <line num="23" count="1" type="stmt"/>
+      <line num="35" count="13" type="stmt"/>
+      <line num="36" count="13" type="stmt"/>
+      <line num="40" count="13" type="stmt"/>
+      <line num="44" count="0" type="stmt"/>
+      <line num="49" count="0" type="stmt"/>
+      <line num="50" count="0" type="stmt"/>
+      <line num="53" count="0" type="stmt"/>
+      <line num="56" count="0" type="stmt"/>
+      <line num="59" count="0" type="stmt"/>
+      <line num="62" count="0" type="stmt"/>
+      <line num="63" count="0" type="stmt"/>
+      <line num="64" count="0" type="stmt"/>
+      <line num="70" count="1" type="stmt"/>
+      <line num="73" count="1" type="stmt"/>
+      <line num="76" count="2" type="stmt"/>
+      <line num="82" count="5" type="stmt"/>
+      <line num="84" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="85" count="1" type="stmt"/>
+      <line num="89" count="5" type="stmt"/>
+      <line num="91" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="92" count="1" type="stmt"/>
+      <line num="97" count="1" type="stmt"/>
+      <line num="98" count="2" type="stmt"/>
+      <line num="99" count="2" type="stmt"/>
+      <line num="100" count="3" type="stmt"/>
+      <line num="106" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>
