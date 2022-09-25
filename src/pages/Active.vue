@@ -1,14 +1,28 @@
 <template>
   <div>
-    <p>Página de todos activos</p>
-    <router-link to="/completed">Ir a la vista de todos completados</router-link>
+    <p class="subtitle">Active</p>
+    <Todos
+      :todos="activeTodos"
+    ></Todos>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
+import Todos  from '@/containers/Todos'
+import { mapGetters } from 'vuex'
+import { getterNames } from '@/store'
 
-@Component
+@Component({
+  components: {
+    Todos
+  },
+  computed: {
+    ...mapGetters({
+      activeTodos: getterNames.GET_ACTIVE
+    })
+  }
+})
 export default class Active extends Vue {
 
 }

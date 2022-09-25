@@ -57,12 +57,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import Task from '@/components/Task'
 import Filters from "@/components/Filters.vue"
 import { actionNames, getterNames } from '@/store'
 import { mapGetters } from 'vuex'
-import Todo from "@/types/Todo";
+import Todo from '@/types/Todo'
 
 @Component({
   components: {
@@ -71,7 +71,6 @@ import Todo from "@/types/Todo";
   },
   computed: {
     ...mapGetters({
-      todos: getterNames.GET_ALL,
       areAllTodosCompleted: getterNames.ARE_ALL_TODOS_COMPLETED,
       activeTodos: getterNames.GET_ACTIVE,
       completedTodos: getterNames.GET_COMPLETED
@@ -81,6 +80,8 @@ import Todo from "@/types/Todo";
 export default class Todos extends Vue {
   newTodo = ''
   areAllChecked = false
+
+  @Prop() todos: Array<Todo>
 
   @Watch('areAllTodosCompleted', { immediate: true })
   onAllTodosChanges (newValue: boolean) {

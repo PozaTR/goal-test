@@ -1,21 +1,17 @@
 @import 'variables';
 
-.page {
-  display: flex;
-  justify-content: center;
+.title {
+  color: $c-primary;
+  font-size: $fs-x-large;
+  font-weight: $fw-bold;
+  margin: 0;
+}
 
-
-  &__card {
-    background-color: rgba($c-primary, 0.3);
-    padding: $gap-xs $gap-xl $gap-xl;
-
-    &__title {
-      color: $c-primary;
-      font-size: $fs-x-large;
-      font-weight: $fw-bold;
-      margin: 0 0 $gap-m;
-    }
-  }
+.subtitle {
+  color: $c-primary;
+  font-size: $fs-medium;
+  font-weight: $fw-bold;
+  margin-bottom: $gap-m;
 }
 
 .todo {

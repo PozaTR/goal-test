@@ -33,7 +33,7 @@ export default class Filters extends Vue {
     },
     {
       label: 'Completed',
-      path: 'completed'
+      path: '/completed'
     }
   ]
 }

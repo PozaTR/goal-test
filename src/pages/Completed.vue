@@ -1,14 +1,28 @@
 <template>
   <div>
-    <p>Página de todos completados</p>
-    <router-link to="/">Ir a la vista principal</router-link>
+    <p class="subtitle">Completed</p>
+    <Todos
+      :todos="completedTodos"
+    ></Todos>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
+import Todos  from '@/containers/Todos'
+import { mapGetters } from 'vuex'
+import { getterNames } from '@/store'
 
-@Component
+@Component({
+  components: {
+    Todos
+  },
+  computed: {
+    ...mapGetters({
+      completedTodos: getterNames.GET_COMPLETED
+    })
+  }
+})
 export default class Completed extends Vue {
 
 }
