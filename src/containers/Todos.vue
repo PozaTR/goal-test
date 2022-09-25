@@ -46,11 +46,12 @@
         {{counterLabel}}
       </p>
       <Filters></Filters>
-      <p
+      <button
         v-if="completedTodos.length"
         class="todos__footer__clear"
+        type="button"
         @click="clearTodos">Clear completed
-      </p>
+      </button>
     </div>
   </div>
 
@@ -133,9 +134,36 @@ export default class Todos extends Vue {
 <style scoped lang="scss">
 
 .todos {
+  border: 1px solid rgba($c-border, .6);
   box-shadow: 0 10px 40px rgba(black, .3);
   margin: 0 auto;
+  position: relative;
   width: 450px;
+
+  &:before, &:after {
+    background-color: $c-white;
+    border: 1px solid rgba($c-border, .6);
+    border-top: none;
+    content: '';
+    display: block;
+    height: 5px;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+    top: 100%;
+  }
+
+  &:before {
+    box-shadow: 0 0 10px rgba(black, .2) inset;
+    margin-top: 1px;
+    width: 97%;
+  }
+
+  &:after {
+    box-shadow: 0 0 20px rgba(black, .2) inset;
+    margin-top: 7px;
+    width: 95%;
+  }
 
   &__footer {
     color: $c-black;
@@ -150,6 +178,11 @@ export default class Todos extends Vue {
     }
 
     &__clear {
+      color: $c-black;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: $fs-small;
       padding: ($gap-xxs - 4) $gap-xxs;
       text-align: right;
     }

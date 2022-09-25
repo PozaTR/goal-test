@@ -46,19 +46,18 @@
     width: $checkboxSize;
 
     &:before {
-      content: 'v';
-      color: $c-active;
-      font-weight: $fw-heavy;
+      content: '';
+      background-image: url('~@/assets/check.svg');
+      background-size: cover;
       position: absolute;
       display: block;
-      height: 14px;
-      font-size: 14px;
-      line-height: 1;
+      height: 10px;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       opacity: 0;
       transition: opacity .3s;
+      width: 10px;
     }
 
     &:has(input:checked):before {

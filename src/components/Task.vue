@@ -42,7 +42,7 @@
           @keyup.esc="onPressEscape"
           @blur="onBlur">
     </div>
-    <span class="task__remove" @click="onClickRemove">X</span>
+    <span class="task__remove" @click="onClickRemove"></span>
   </div>
 </template>
 
@@ -147,6 +147,19 @@ export default class Task extends Vue {
     right: $gap-s;
     top: 12px;
     width: 24px;
+
+    &:before {
+      content: '';
+      background-image: url('~@/assets/cross.svg');
+      background-size: cover;
+      position: absolute;
+      display: block;
+      height: 10px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+    }
   }
 
   &:hover {
